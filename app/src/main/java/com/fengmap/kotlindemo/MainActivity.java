@@ -1,21 +1,18 @@
 package com.fengmap.kotlindemo;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 /**
  *
@@ -24,56 +21,63 @@ import okhttp3.Response;
 
 public class MainActivity extends Activity {
 
-    private WebView mWebView;
+    private com.tencent.smtt.sdk.WebView webView;
 
 
-
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mWebView = (WebView) findViewById(R.id.webView);
+        Intent intent = getIntent();
+        String url = intent.getStringExtra("url");
 
-        load("http://aigoodies.com/bick/public/index.php/api/index/get_appid/appid/kunlin20181106ttz");
+        webView = findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        loadUrl(url);
     }
 
-    private void update(String url){
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder().url(url).get().build();
-        client.newCall(request).enqueue(new Callback() {
+    private void loadUrl(String url) {
+        webView.loadUrl(url);
+        webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
+            public void onReceivedError(WebView var1, int var2, String var3, String var4) {
+                Toast.makeText(MainActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+            }
+        });
+        //进度条
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    return;
+                }
+                Log.e("jiazaizhong","jia");
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webView != null) webView.destroy();
+    }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @SuppressLint("SetJavaScriptEnabled")
-    void load(String url) {
-        WebSettings settings = mWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
-//        settings.setAllowFileAccess(true);
-        /**
-         * 允许通过 file url 加载的 Javascript 读取其他的本地文件,
-         * Android 4.1 之前默认是true，在 Android 4.1 及以后默认是false,也就是禁止。
-         */
-        settings.setAllowFileAccessFromFileURLs(true);
-        /**
-         * 允许通过 file url 加载的 Javascript 可以访问其他的源，包括其他的文件和 http，https 等其他的源，
-         * Android 4.1 之前默认是true，在 Android 4.1 及以后默认是false,
-         * 也就是禁止如果此设置是允许，则 setAllowFileAccessFromFileURLs 不起做用
-         */
-//        settings.setAllowUniversalAccessFromFileURLs(true);
-
-        mWebView.loadUrl(url);
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
