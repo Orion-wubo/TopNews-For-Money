@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -22,7 +21,7 @@ import com.tencent.smtt.sdk.WebViewClient;
 public class MainActivity extends Activity {
 
     private com.tencent.smtt.sdk.WebView webView;
-
+    private long mExitTime;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -61,7 +60,6 @@ public class MainActivity extends Activity {
                 if (newProgress == 100) {
                     return;
                 }
-                Log.e("jiazaizhong","jia");
             }
         });
     }
@@ -74,9 +72,23 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
-            webView.goBack();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (webView.canGoBack()) {
+                webView.goBack();
+            } else {
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                    //大于2000ms则认为是误操作，使用Toast进行提示
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    //并记录下本次点击“返回键”的时刻，以便下次进行判断
+                    mExitTime = System.currentTimeMillis();
+                } else {
+                    //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
+                    System.exit(0);
+                }
+            }
             return true;
+        } else {
+            finish();
         }
         return super.onKeyDown(keyCode, event);
     }
