@@ -1,42 +1,52 @@
-package com.fengmap.kotlindemo;
+package com.fengmap.kotlindemo.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
+import com.fengmap.kotlindemo.R;
 
 /**
  *
- * Created by bai on 2018/11/7.
+ * Created by bai on 2018/11/9.
  */
 
-public class MainActivity extends Activity {
-
-    private com.tencent.smtt.sdk.WebView webView;
-    private long mExitTime;
+public class DetailActivity extends Activity {
+    private WebView webView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
+        String title = intent.getStringExtra("title");
+
+        Log.e("url", url);
 
         webView = findViewById(R.id.webView);
+        TextView tv_title = findViewById(R.id.detail_tv_title);
+        tv_title.setText(title);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
         loadUrl(url);
+    }
+
+    public void back(View view) {
+        finish();
     }
 
     private void loadUrl(String url) {
@@ -50,7 +60,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onReceivedError(WebView var1, int var2, String var3, String var4) {
-                Toast.makeText(MainActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                Toast.makeText(DetailActivity.this, "加载失败", Toast.LENGTH_LONG).show();
             }
         });
         //进度条
@@ -68,28 +78,5 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if (webView != null) webView.destroy();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (webView.canGoBack()) {
-                webView.goBack();
-            } else {
-                if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                    //大于2000ms则认为是误操作，使用Toast进行提示
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                    //并记录下本次点击“返回键”的时刻，以便下次进行判断
-                    mExitTime = System.currentTimeMillis();
-                } else {
-                    //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
-                    System.exit(0);
-                }
-            }
-            return true;
-        } else {
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

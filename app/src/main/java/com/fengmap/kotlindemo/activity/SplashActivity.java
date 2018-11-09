@@ -1,4 +1,4 @@
-package com.fengmap.kotlindemo;
+package com.fengmap.kotlindemo.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,6 +18,8 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.fengmap.kotlindemo.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,7 +125,6 @@ public class SplashActivity extends Activity{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(SplashActivity.this,"update failed",Toast.LENGTH_LONG).show();
                 goHome();
             }
 
