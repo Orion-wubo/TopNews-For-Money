@@ -5,11 +5,16 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:background="#fff"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
+            android:background="#fff"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/back"
             android:onClick="back"
             android:id="@+id/detail_iv_back"
             android:layout_width="wrap_content"

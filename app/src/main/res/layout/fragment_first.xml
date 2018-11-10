@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <include layout="@layout/title"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_first"
         android:layout_width="match_parent"

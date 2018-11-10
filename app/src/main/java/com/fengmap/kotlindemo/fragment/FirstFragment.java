@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fengmap.kotlindemo.activity.DetailActivity;
 import com.fengmap.kotlindemo.bean.NewsInfo;
@@ -114,6 +115,8 @@ public class FirstFragment extends Fragment {
     }
 
     private void initView(View view) {
+        TextView tv_title = view.findViewById(R.id.tv_title);
+        tv_title.setText("头条新闻");
         recyclerView = view.findViewById(R.id.rv_first);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         //设置布局管理器

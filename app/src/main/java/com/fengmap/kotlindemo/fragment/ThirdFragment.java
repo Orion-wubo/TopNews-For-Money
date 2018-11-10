@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fengmap.kotlindemo.R;
 
@@ -19,6 +20,12 @@ public class ThirdFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_third, null);
+        initView(view);
         return view;
+    }
+
+    private void initView(View view) {
+        TextView tv_title = view.findViewById(R.id.tv_title);
+        tv_title.setText("货币汇率");
     }
 }
