@@ -12,38 +12,102 @@
         android:layout_weight="1">
 
     </FrameLayout>
+
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#fff"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button1"
+        <RelativeLayout
+            android:id="@+id/rv_news"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="第一个" />
+            android:layout_margin="5dp"
+            android:layout_weight="1">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="第二个" />
+            <ImageButton
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bottom_news"
+                android:clickable="false"
+                android:contentDescription="@string/image_resourse" />
 
-        <Button
-            android:id="@+id/button3"
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#aeaeae" />
+
+        <RelativeLayout
+            android:id="@+id/rv_date"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="第三个" />
-        <Button
-            android:id="@+id/button4"
+            android:layout_margin="5dp"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bottom_date"
+                android:clickable="false"
+                android:contentDescription="@string/image_resourse" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#aeaeae" />
+
+        <RelativeLayout
+            android:id="@+id/rv_money"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="第四个" />
+            android:layout_margin="5dp"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bottom_money"
+                android:clickable="false"
+                android:contentDescription="@string/image_resourse" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#aeaeae" />
+
+        <RelativeLayout
+            android:id="@+id/rv_star"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bottom_star"
+                android:clickable="false"
+                android:contentDescription="@string/image_resourse" />
+        </RelativeLayout>
     </LinearLayout>
 
 

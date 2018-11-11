@@ -1,5 +1,6 @@
 package com.fengmap.kotlindemo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,14 +40,14 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<NewsRecycleAdapter.
     //② 创建ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
-        public final TextView date;
-        public final ImageView imageView1;
-        public final LinearLayout newsItem;
+        private final TextView date;
+        private final ImageView imageView1;
+        private final LinearLayout newsItem;
 
-        public ViewHolder(View v) {
+        private ViewHolder(View v) {
             super(v);
-            title = (TextView) v.findViewById(R.id.news_title);
-            date = (TextView) v.findViewById(R.id.news_date);
+            title = v.findViewById(R.id.news_title);
+            date = v.findViewById(R.id.news_date);
             imageView1 = v.findViewById(R.id.news_iv1);
             newsItem = v.findViewById(R.id.news_item);
         }
@@ -59,7 +60,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<NewsRecycleAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         NewsInfo newsInfo = news.get(position);
         holder.title.setText(newsInfo.getTitle());
         holder.date.setText(newsInfo.getDate());

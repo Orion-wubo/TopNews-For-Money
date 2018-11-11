@@ -8,7 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.fengmap.kotlindemo.R;
@@ -25,11 +26,15 @@ import java.util.ArrayList;
  */
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener {
-    private FirstFragment f1;
-    private SecondFragment f2;
-    private ThirdFragment f3;
-    private FourthFragment f4;
     private ArrayList<Fragment> fragments = new ArrayList<>();
+    private ImageButton bt_news;
+    private ImageButton bt_date;
+    private ImageButton bt_money;
+    private ImageButton bt_star;
+    private RelativeLayout rv_star;
+    private RelativeLayout rv_news;
+    private RelativeLayout rv_date;
+    private RelativeLayout rv_money;
 
     @SuppressLint("CommitTransaction")
     @Override
@@ -37,51 +42,100 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        f1 = new FirstFragment();
-        f2 = new SecondFragment();
-        f3 = new ThirdFragment();
-        f4 = new FourthFragment();
+        initFragment();
+
+        initView();
+
+        showFragment(0);
+
+    }
+
+    private void initFragment() {
+        FirstFragment f1 = new FirstFragment();
+        SecondFragment f2 = new SecondFragment();
+        ThirdFragment f3 = new ThirdFragment();
+        FourthFragment f4 = new FourthFragment();
 
         fragments.add(f1);
         fragments.add(f2);
         fragments.add(f3);
         fragments.add(f4);
+    }
 
-        Button button1 = (Button) findViewById(R.id.button1);
-        button1.setOnClickListener(this);
+    private void initView() {
+        rv_news = findViewById(R.id.rv_news);
+        rv_date = findViewById(R.id.rv_date);
+        rv_money = findViewById(R.id.rv_money);
+        rv_star = findViewById(R.id.rv_star);
 
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(this);
+        bt_news = findViewById(R.id.button1);
+        rv_news.setOnClickListener(this);
 
-        Button button3 = (Button) findViewById(R.id.button3);
-        button3.setOnClickListener(this);
+        bt_date = findViewById(R.id.button2);
+        rv_date.setOnClickListener(this);
 
-        Button button4 = (Button) findViewById(R.id.button4);
-        button4.setOnClickListener(this);
+        bt_money = findViewById(R.id.button3);
+        rv_money.setOnClickListener(this);
 
-        initFragment(0);
+        bt_star = findViewById(R.id.button4);
+        rv_star.setOnClickListener(this);
 
+        bt_news.setSelected(true);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button1:
-                initFragment(0);
+            case R.id.rv_news:
+                showFragment(0);
+                btSeletc(R.id.button1);
                 break;
-            case R.id.button2:
-                initFragment(1);
+            case R.id.rv_date:
+                showFragment(1);
+                btSeletc(R.id.button2);
                 break;
-            case R.id.button3:
-                initFragment(2);
+            case R.id.rv_money:
+                showFragment(2);
+                btSeletc(R.id.button3);
                 break;
-            case R.id.button4:
-                initFragment(3);
+            case R.id.rv_star:
+                showFragment(3);
+                btSeletc(R.id.button4);
                 break;
         }
     }
 
-    private void initFragment(int i) {
+    private void btSeletc(int id) {
+        switch (id) {
+            case R.id.button1:
+                bt_news.setSelected(true);
+                bt_date.setSelected(false);
+                bt_money.setSelected(false);
+                bt_star.setSelected(false);
+                break;
+            case R.id.button2:
+                bt_news.setSelected(false);
+                bt_date.setSelected(true);
+                bt_money.setSelected(false);
+                bt_star.setSelected(false);
+                break;
+            case R.id.button3:
+                bt_news.setSelected(false);
+                bt_date.setSelected(false);
+                bt_money.setSelected(true);
+                bt_star.setSelected(false);
+                break;
+            case R.id.button4:
+                bt_news.setSelected(false);
+                bt_date.setSelected(false);
+                bt_money.setSelected(false);
+                bt_star.setSelected(true);
+                break;
+        }
+
+    }
+
+    private void showFragment(int i) {
         //开启事务，fragment的控制是由事务来实现的
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (!fragments.get(i).isAdded())
@@ -94,44 +148,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         transaction.show(fragments.get(i));
         transaction.commit();
-
-//        switch (i) {
-//            case 1:
-//                if (f == null) {
-//                    f1 = new FirstFragment();
-//                    transaction.add(R.id.fragment, f1);
-//                    f = f1;
-//                }
-//                break;
-//            case 2:
-//                if (f == null) {
-//                    f2 = new SecondFragment();
-//                    transaction.add(R.id.fragment, f2);
-//                    f = f2;
-//                }
-//                break;
-//            case 3:
-//                if (f == null) {
-//                    f3 = new ThirdFragment();
-//                    transaction.add(R.id.fragment, f3);
-//                    f = f3;
-//                }
-//                break;
-//            case 4:
-//                if (f == null) {
-//                    f4 = new FourthFragment();
-//                    transaction.add(R.id.fragment, f4);
-//                    f = f4;
-//                }
-//                break;
-//        }
-//        //隐藏所有fragment
-//        hideFragment(i);
-//        //显示需要显示的fragment
-//        transaction.show(f);
-//
-//        //提交事务
-//        transaction.commit();
     }
 
     //声明一个long类型变量：用于存放上一点击“返回键”的时刻
