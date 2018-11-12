@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fengmap.kotlindemo.bean.NewsInfo;
 import com.fengmap.kotlindemo.R;
 
@@ -26,10 +27,14 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<NewsRecycleAdapter.
     private ArrayList<NewsInfo> news;
     private final Context context;
     private OnItemClickListener listener;
+    private final RequestOptions requestOptions;
 
+    @SuppressLint("CheckResult")
     public NewsRecycleAdapter(Context context, ArrayList<NewsInfo> newsInfos) {
         this.context = context;
         this.news = newsInfos;
+        requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.rv_noload);
     }
 
     public void setData(ArrayList<NewsInfo> newsInfos) {
@@ -67,6 +72,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<NewsRecycleAdapter.
 
         Glide.with(context)
                 .load(newsInfo.getThumbnail_pic_s())
+                .apply(requestOptions)
                 .into(holder.imageView1);
 
         holder.newsItem.setOnClickListener(new View.OnClickListener() {

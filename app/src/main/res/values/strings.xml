@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">头条赚钱</string>
     <string name="image_resourse">info</string>
+    <string name="china_bank">中国银行</string>
+    <string name="js_bank">建设银行</string>
+    <string name="gs_bank">工商银行</string>
+    <string name="jt_bank">交通银行</string>
+    <string name="zs_bank">招商银行</string>
+    <string name="ny_bank">农业银行</string>
 </resources>

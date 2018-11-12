@@ -42,7 +42,6 @@ import okhttp3.Response;
  */
 
 public class FirstFragment extends Fragment {
-    private RecyclerView recyclerView;
     private ArrayList<NewsInfo> newsInfos = new ArrayList<>();
     private NewsRecycleAdapter recycleAdapter;
 
@@ -117,7 +116,7 @@ public class FirstFragment extends Fragment {
     private void initView(View view) {
         TextView tv_title = view.findViewById(R.id.tv_title);
         tv_title.setText("头条新闻");
-        recyclerView = view.findViewById(R.id.rv_first);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_first);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
@@ -142,17 +141,6 @@ public class FirstFragment extends Fragment {
                 FirstFragment.this.getContext().startActivity(intent);
             }
         });
-
-//        recycleAdapter.setItemClickListener(new NewsRecycleAdapter.ItemClickListener() {
-//            @Override
-//            public void click(View view, int position) {
-//                String url = newsInfos.get(position).getUrl();
-//                Intent intent = new Intent(FirstFragment.this.getActivity(), DetailActivity.class);
-//                intent.putExtra("url", url);
-//                FirstFragment.this.getActivity().startActivity(intent);
-//            }
-//        });
     }
-
 
 }
