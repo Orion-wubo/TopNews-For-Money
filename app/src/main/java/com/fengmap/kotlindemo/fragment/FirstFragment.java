@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fengmap.kotlindemo.activity.DetailActivity;
 import com.fengmap.kotlindemo.bean.NewsInfo;
@@ -120,8 +121,9 @@ public class FirstFragment extends Fragment {
     private void initView(View view) {
         TextView tv_title = view.findViewById(R.id.tv_title);
         tv_title.setText("头条新闻");
+
         RecyclerView recyclerView = view.findViewById(R.id.rv_first);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
@@ -143,6 +145,21 @@ public class FirstFragment extends Fragment {
                 intent.putExtra("url", url);
                 intent.putExtra("title", title);
                 FirstFragment.this.getContext().startActivity(intent);
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastCompletelyVisibleItemPosition == newsInfos.size() - 1) {
+                    Toast.makeText(FirstFragment.this.getContext(),"没有更多数据",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

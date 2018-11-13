@@ -6,12 +6,12 @@
     android:orientation="horizontal">
 
     <TextView
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_gravity="center_vertical"
-        android:layout_margin="10dp"
         android:textColor="#fff"
         android:textSize="20sp" />
 

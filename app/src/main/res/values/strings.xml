@@ -43,4 +43,18 @@
     <string name="shiye">事业运:</string>
     <string name="ganqing">感情运:</string>
     <string name="jqy">金钱运:</string>
+
+
+    <string name="symbol">代码:</string>
+    <string name="sname">名称:</string>
+    <string name="per_nav">单位净值:</string>
+    <string name="total_nav">累计净值:</string>
+    <string name="yesterday_nav">前一日净值:</string>
+    <string name="nav_rate">增长率:</string>
+    <string name="nav_a">涨跌幅:</string>
+    <string name="sg_states">申购状态:</string>
+    <string name="nav_date">净值日期:</string>
+    <string name="jjlx">基金类型:</string>
+
+
 </resources>
