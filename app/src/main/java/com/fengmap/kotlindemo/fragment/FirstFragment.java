@@ -32,8 +32,10 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -68,8 +70,10 @@ public class FirstFragment extends Fragment {
 
     private void getNews() {
         OkHttpClient client = new OkHttpClient();
-        String url = "http://v.juhe.cn/toutiao/index?type=top&key=a5f45eeab05824a9440ca143b2447528";
-        Request request = new Request.Builder().url(url).get().build();
+        String url = "http://v.juhe.cn/toutiao/index?type=top";
+        RequestBody body = new FormBody.Builder().add("key","a5f45eeab05824a9440ca143b2447528")
+        .add("type","caijing").build();
+        Request request = new Request.Builder().url(url).post(body).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

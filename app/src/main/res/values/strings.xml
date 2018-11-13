@@ -1,10 +1,46 @@
 <resources>
     <string name="app_name">头条赚钱</string>
     <string name="image_resourse">info</string>
+
     <string name="china_bank">中国银行</string>
     <string name="js_bank">建设银行</string>
     <string name="gs_bank">工商银行</string>
     <string name="jt_bank">交通银行</string>
     <string name="zs_bank">招商银行</string>
     <string name="ny_bank">农业银行</string>
+
+    <string name="star_xz">选择星座</string>
+    <string name="star_byz">白羊座</string>
+    <string name="star_jnz">金牛座</string>
+    <string name="star_szz">双子座</string>
+    <string name="star_jx">巨蟹座</string>
+    <string name="star_shizi">狮子座</string>
+    <string name="star_cnz">处女座</string>
+    <string name="tpz">天秤座</string>
+    <string name="txz">天蝎座</string>
+    <string name="ssz">射手座</string>
+    <string name="mjz">摩羯座</string>
+    <string name="spz">水瓶座</string>
+    <string name="syz">双鱼座</string>
+
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
+    <string name="week">本周</string>
+    <string name="month">本月</string>
+    <string name="year">今年</string>
+
+    <string name="summary">今日概述:</string>
+    <string name="all">综合指数:</string>
+    <string name="lucycolor">幸运颜色:</string>
+    <string name="health">健康指数:</string>
+    <string name="love">爱情指数:</string>
+    <string name="money">财运指数:</string>
+    <string name="work">工作指数:</string>
+    <string name="lucynum">幸运数字:</string>
+    <string name="QFriend">速配星座:</string>
+    <string name="mima">年度密码:</string>
+    <string name="info">年度说明:</string>
+    <string name="shiye">事业运:</string>
+    <string name="ganqing">感情运:</string>
+    <string name="jqy">金钱运:</string>
 </resources>

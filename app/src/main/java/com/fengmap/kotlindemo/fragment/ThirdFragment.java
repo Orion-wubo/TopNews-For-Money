@@ -53,8 +53,18 @@ public class ThirdFragment extends Fragment{
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
+            if (msg.what == 3) {
                 recycleAdapter.setData(moneyInfos);
+            } else if (msg.what == 0) {
+                recycleAdapter.setData(moneyInfos_gs);
+            }else if (msg.what == 1) {
+                recycleAdapter.setData(moneyInfos_zs);
+            }else if (msg.what == 2) {
+                recycleAdapter.setData(moneyInfos_js);
+            }else if (msg.what == 4) {
+                recycleAdapter.setData(moneyInfos_jt);
+            }else if (msg.what == 5) {
+                recycleAdapter.setData(moneyInfos_ny);
             }
         }
     };
@@ -72,7 +82,7 @@ public class ThirdFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_third, null);
         initView(view);
-        getNews(3);
+        getNews("3",moneyInfos);
         return view;
     }
 
@@ -100,33 +110,63 @@ public class ThirdFragment extends Fragment{
         radioGroup1.setOnCheckedChangeListener(new MultiLineRadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(MultiLineRadioGroup group, int checkedId) {
-
+                switch (checkedId) {
+                    case R.id.rb_china:
+                        if (moneyInfos.size() == 0) {
+                            getNews("3", moneyInfos);
+                        } else {
+                            recycleAdapter.setData(moneyInfos);
+                        }
+                        break;
+                    case R.id.rb_gs:
+                        if (moneyInfos_gs.size() == 0) {
+                            getNews("0", moneyInfos_gs);
+                        } else {
+                            recycleAdapter.setData(moneyInfos_gs);
+                        }
+                        break;
+                    case R.id.rb_zs:
+                        if (moneyInfos_zs.size() == 0) {
+                            getNews("1", moneyInfos_zs);
+                        } else {
+                            recycleAdapter.setData(moneyInfos_zs);
+                        }
+                        break;
+                    case R.id.rb_js:
+                        if (moneyInfos_js.size() == 0) {
+                            getNews("2", moneyInfos_js);
+                        } else {
+                            recycleAdapter.setData(moneyInfos_js);
+                        }
+                        break;
+                    case R.id.rb_jt:
+                        if (moneyInfos_jt.size() == 0) {
+                            getNews("4", moneyInfos_jt);
+                        } else {
+                            recycleAdapter.setData(moneyInfos_jt);
+                        }
+                        break;
+                    case R.id.rb_ny:
+                        if (moneyInfos_ny.size() == 0) {
+                            getNews("5", moneyInfos_ny);
+                        } else {
+                            recycleAdapter.setData(moneyInfos_ny);
+                        }
+                        break;
+                }
             }
         });
 
     }
 
-    private void getNews(int bank) {
+    private void getNews(final String bank, final ArrayList<MoneyInfo> lists) {
         OkHttpClient client = new OkHttpClient();
         String url = "http://web.juhe.cn:8080/finance/exchange/rmbquot";
 
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("key", "16c165a40dfe6a83b6f5fcf135f0533c");
-//            jsonObject.put("bank", "3");
-//            // ...
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        String content = jsonObject.toString();
-//
-//        RequestBody body  = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),content);
-
         RequestBody body = new FormBody.Builder()
                 .add("key","16c165a40dfe6a83b6f5fcf135f0533c")
-                .add("bank","3")
+                .add("bank",bank)
                 .build();
-
 
         Request request = new Request.Builder().url(url).post(body).build();
         client.newCall(request).enqueue(new Callback() {
@@ -146,7 +186,7 @@ public class ThirdFragment extends Fragment{
                         JSONArray jsonArray = new JSONArray(result1);
 
                         JSONObject dataobj = new JSONObject(jsonArray.get(0).toString());
-                        for (int i = 0; i < 21; i++) {
+                        for (int i = 0; i < dataobj.names().length(); i++) {
                             String d = dataobj.getString("data" + (i + 1));
                             JSONObject dobj = new JSONObject(d);
                             String bankConversionPri = dobj.getString("bankConversionPri");
@@ -169,10 +209,10 @@ public class ThirdFragment extends Fragment{
                             moneyInfo.setName(name);
                             moneyInfo.setTime(time);
 
-                            moneyInfos.add(moneyInfo);
+                            lists.add(moneyInfo);
                         }
 
-                        Message message = handler.obtainMessage(1);
+                        Message message = handler.obtainMessage(Integer.parseInt(bank));
                         handler.sendMessage(message);
                     } catch (JSONException e) {
                         e.printStackTrace();
