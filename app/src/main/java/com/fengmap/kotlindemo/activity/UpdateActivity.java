@@ -49,6 +49,8 @@ public class UpdateActivity extends Activity {
 
             }else if (msg.what==4){
                 install(file);
+            } else if (msg.what == 1) {
+                goHome();
             }
         }
     };
@@ -91,7 +93,7 @@ public class UpdateActivity extends Activity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                goHome();
+                handler.sendEmptyMessageDelayed(1, 2000);
             }
 
             @Override
@@ -132,6 +134,7 @@ public class UpdateActivity extends Activity {
                         is.close();
                     }
                     if (fos != null) {
+                        fos.flush();
                         fos.close();
                     }
                 }

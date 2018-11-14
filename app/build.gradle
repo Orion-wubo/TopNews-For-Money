@@ -7,7 +7,6 @@ android {
             keyPassword '123456'
             storeFile file('Androidkey')
             storePassword '123456'
-            v2SigningEnabled false
         }
     }
 
@@ -15,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.fengmap.kotlindemo"
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -35,7 +34,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    testImplementation 'junit:junit:4.12'
+//    testImplementation 'junit:junit:4.12'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
 

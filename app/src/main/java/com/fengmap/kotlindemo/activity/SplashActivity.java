@@ -85,7 +85,7 @@ public class SplashActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder().url(url).get().build();
         client.newCall(request).enqueue(new Callback() {
@@ -139,8 +139,4 @@ public class SplashActivity extends Activity{
         SplashActivity.this.startActivity(intent);
         this.finish();
     }
-
-    private OkHttpClient client;
-
-
 }

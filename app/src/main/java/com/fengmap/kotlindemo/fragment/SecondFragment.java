@@ -54,6 +54,8 @@ public class SecondFragment extends Fragment {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 recycleAdapter.setData(dateInfos);
+            } else if (msg.what == 2) {
+                Toast.makeText(SecondFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -113,7 +115,7 @@ public class SecondFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(SecondFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
+                handler.sendEmptyMessageDelayed(2, 0);
             }
 
             @Override

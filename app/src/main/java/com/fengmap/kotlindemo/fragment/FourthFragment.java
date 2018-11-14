@@ -101,6 +101,8 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
                 shiye.setText(info.getCareer());
                 ganqing.setText(info.getLove());
                 jinqian.setText(info.getCareerfinance());
+            } else if (msg.what == 5) {
+                Toast.makeText(FourthFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -333,7 +335,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(FourthFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
+                handler.sendEmptyMessageDelayed(5, 0);
             }
 
             @Override

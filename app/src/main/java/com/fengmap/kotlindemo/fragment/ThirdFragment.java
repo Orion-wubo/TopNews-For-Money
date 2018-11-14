@@ -2,7 +2,6 @@ package com.fengmap.kotlindemo.fragment;
 
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,12 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +32,6 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -66,6 +60,8 @@ public class ThirdFragment extends Fragment{
                 recycleAdapter.setData(moneyInfos_jt);
             }else if (msg.what == 5) {
                 recycleAdapter.setData(moneyInfos_ny);
+            } else if (msg.what == 6) {
+                Toast.makeText(ThirdFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -173,7 +169,7 @@ public class ThirdFragment extends Fragment{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(ThirdFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
+                handler.sendEmptyMessageDelayed(6, 0);
             }
 
             @Override
