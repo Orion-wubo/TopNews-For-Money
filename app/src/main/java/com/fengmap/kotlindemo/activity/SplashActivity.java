@@ -54,114 +54,30 @@ public class SplashActivity extends Activity{
                 goHome();
                 // go main
             } else if (msg.what == 2) {
-                String main = (String) msg.obj;
+                String url = (String) msg.obj;
                 // go main download apk
 
-                if (main.endsWith(".apk")) {
+                if (url.endsWith(".apk")) {
                     // down load and update
-                    downLoad(main);
+                    goUpdate(url);
                 } else {
                     // go to main show url
                     Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-                    intent.putExtra("url", main);
+                    intent.putExtra("url", url);
                     SplashActivity.this.startActivity(intent);
                     SplashActivity.this.finish();
                 }
-            } else if (msg.what == 3) {
-                // down show
-                int progress = (int) msg.obj;
-                showDownInfo(progress);
+            } else if (msg.what == 4) {
+                goHome();
             }
         }
     };
-    private File file;
 
-    private void showDownInfo(int progress) {
-
-        View contentView = LayoutInflater.from(SplashActivity.this).inflate(R.layout.popwindow, null);
-        PopupWindow mPopupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        // 设置这两个属性
-        mPopupWindow.setOutsideTouchable(false);
-        mPopupWindow.setFocusable(false);
-
-
-        mPopupWindow.setContentView(contentView);
-
-        //显示PopupWindow
-        View rootview = LayoutInflater.from(SplashActivity.this).inflate(R.layout.activity_splash, null);
-        mPopupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
-
-
-
-        TextView pop_text = contentView.findViewById(R.id.pop_text);
-        ProgressBar pop_progress = contentView.findViewById(R.id.pop_progress);
-
-        pop_progress.setProgress(progress);
-
-        if (progress == 100) {
-            pop_text.setText("下载完成");
-            // install apk
-            install(file);
-        }
-    }
-
-    private void install(File file) {
-
-    }
-
-    private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-        SplashActivity.this.startActivity(intent);
+    private void goUpdate(String url) {
+        Intent intent = new Intent(this, UpdateActivity.class);
+        intent.putExtra("url", url);
+        this.startActivity(intent);
         this.finish();
-    }
-
-    private OkHttpClient client;
-
-    // download apk
-    private void downLoad(String main) {
-        Request request = new Request.Builder().url(main).get().build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                goHome();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    InputStream is = response.body().byteStream();
-                    String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    file = new File(path,"ttzq.apk");
-                    FileOutputStream fos = new FileOutputStream(file);
-
-                    int totle = (int) response.body().contentLength();
-
-                    byte[] bytes = new byte[1024];
-                    int len = 0;
-                    int sum = 0;
-                    int progress = 0;
-                    while ((len = is.read(bytes)) != -1) {
-                        fos.write(bytes);
-                        sum = sum +len;
-
-                        progress = (int) ((sum * 1.0f) / totle * 100);
-
-                        Message message = handler.obtainMessage(3);
-                        message.obj = progress;
-                        handler.sendMessage(message);
-                    }
-
-                    if (is != null) {
-                        is.close();
-                    }
-                    if (fos != null) {
-                        fos.close();
-                    }
-                }
-            }
-        });
     }
 
     @Override
@@ -175,13 +91,7 @@ public class SplashActivity extends Activity{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(SplashActivity.this,"please check you network",Toast.LENGTH_LONG).show();
-                        goHome();
-                    }
-                });
+                handler.sendEmptyMessageDelayed(4,2000);
             }
 
             @Override
@@ -205,10 +115,6 @@ public class SplashActivity extends Activity{
                         String PushKeyBase64 = new String(Base64.decode(s2.getBytes(), Base64.DEFAULT));
                         String mainURlBase64 = new String(Base64.decode(s3.getBytes(), Base64.DEFAULT)).replace("\t","");
 
-                        Log.e("web",showWebBase64);
-                        Log.e("push",PushKeyBase64);
-                        Log.e("main",mainURlBase64);
-
                         if (showWebBase64.equals("0")) {
                             Message message = handler.obtainMessage(1);
                             message.obj = mainURlBase64;
@@ -227,4 +133,14 @@ public class SplashActivity extends Activity{
             }
         });
     }
+
+    private void goHome() {
+        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+        SplashActivity.this.startActivity(intent);
+        this.finish();
+    }
+
+    private OkHttpClient client;
+
+
 }

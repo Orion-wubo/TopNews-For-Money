@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fengmap.kotlindemo.R;
 import com.fengmap.kotlindemo.adapter.DateRecycleAdapter;
@@ -112,7 +113,7 @@ public class SecondFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("error", e.getMessage());
+                Toast.makeText(SecondFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
 
             @Override

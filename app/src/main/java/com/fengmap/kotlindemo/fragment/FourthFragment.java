@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fengmap.kotlindemo.R;
 import com.fengmap.kotlindemo.bean.MoneyInfo;
@@ -332,7 +333,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("error", e.getMessage());
+                Toast.makeText(FourthFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
 
             @Override

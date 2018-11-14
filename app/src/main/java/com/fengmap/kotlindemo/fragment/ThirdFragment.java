@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fengmap.kotlindemo.R;
 import com.fengmap.kotlindemo.adapter.MoneyRecycleAdapter;
@@ -172,7 +173,7 @@ public class ThirdFragment extends Fragment{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("error", e.getMessage());
+                Toast.makeText(ThirdFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
 
             @Override

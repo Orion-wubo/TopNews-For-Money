@@ -78,13 +78,14 @@ public class FirstFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("error", e.getMessage());
+                Toast.makeText(FirstFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
+
 
                     try {
                         JSONObject jsonObject = new JSONObject(result);
