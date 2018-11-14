@@ -2,6 +2,7 @@ package com.fengmap.kotlindemo.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fengmap.kotlindemo.R;
@@ -43,20 +45,35 @@ public class UpdateActivity extends Activity {
                 // down show
                 int progress = (int) msg.obj;
                 Log.e("handle", progress + "");
-                if (progress == 100) {
-                    install(file);
-                }
+                proB.setProgress(progress);
+
+            }else if (msg.what==4){
+                install(file);
             }
         }
     };
 
     private OkHttpClient client;
     private long mExitTime;
+    private ProgressBar proB;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
+
+
+
+        proB = findViewById(R.id.pro);
+
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/app-debug.apk";
+//                    file = new File(path,"ttzq.apk");
+        file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        }
+
+//        install(new File(Environment.getExternalStorageDirectory().getAbsoluteFile()+"/app-debug.apk"));
 
         client = new OkHttpClient();
 
@@ -81,9 +98,7 @@ public class UpdateActivity extends Activity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     InputStream is = response.body().byteStream();
-                    String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-//                    file = new File(path,"ttzq.apk");
-                    file = new File(path, "ttzq.apk");
+
                     FileOutputStream fos = new FileOutputStream(file);
 
                     int totle = (int) response.body().contentLength();
@@ -95,7 +110,7 @@ public class UpdateActivity extends Activity {
                     int sum = 0;
                     int progress = 0;
                     while ((len = is.read(bytes)) != -1) {
-                        fos.write(bytes);
+                        fos.write(bytes,0,len);  //在这里使用另一个重载，防止流写入的问题.
                         sum = sum + len;
                         Log.e("sum", sum + "");
 
@@ -108,6 +123,10 @@ public class UpdateActivity extends Activity {
                         message.obj = progress;
                         handler.sendMessage(message);
                     }
+
+                    Message message = handler.obtainMessage(4);
+                    message.obj = progress;
+                    handler.sendMessage(message);
 
                     if (is != null) {
                         is.close();

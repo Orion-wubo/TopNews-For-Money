@@ -7,6 +7,7 @@ android {
             keyPassword '123456'
             storeFile file('Androidkey')
             storePassword '123456'
+            v2SigningEnabled false
         }
     }
 
@@ -14,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.fengmap.kotlindemo"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
     }
