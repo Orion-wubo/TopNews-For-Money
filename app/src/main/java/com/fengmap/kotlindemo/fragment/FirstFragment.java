@@ -2,6 +2,7 @@ package com.fengmap.kotlindemo.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,13 +17,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fengmap.kotlindemo.activity.DetailActivity;
+import com.fengmap.kotlindemo.adapter.GlideImageLoader;
 import com.fengmap.kotlindemo.bean.NewsInfo;
 import com.fengmap.kotlindemo.R;
 import com.fengmap.kotlindemo.adapter.NewsRecycleAdapter;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,12 +63,18 @@ public class FirstFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                pb_first.setVisibility(View.GONE);
                 recycleAdapter.setData(newsInfos);
+                runLayoutAnimation(recyclerView);
             } else if (msg.what == 2) {
+                pb_first.setVisibility(View.GONE);
                 Toast.makeText(FirstFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
         }
     };
+    private RecyclerView recyclerView;
+    private ProgressBar pb_first;
+    private ArrayList<Integer> images = new ArrayList<>();
 
     @Nullable
     @Override
@@ -75,9 +91,12 @@ public class FirstFragment extends Fragment {
         OkHttpClient client = new OkHttpClient();
         String url = "http://v.juhe.cn/toutiao/index?type=top";
         RequestBody body = new FormBody.Builder().add("key","a5f45eeab05824a9440ca143b2447528")
-        .add("type","caijing").build();
+        .add("type","top").build();
         Request request = new Request.Builder().url(url).post(body).build();
         client.newCall(request).enqueue(new Callback() {
+
+
+
             @Override
             public void onFailure(Call call, IOException e) {
                 handler.sendEmptyMessageDelayed(2, 0);
@@ -88,10 +107,12 @@ public class FirstFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
 
-
+                    String thumbnail_pic_s3 = null;
+                    String thumbnail_pic_s2 = null;
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         String result1 = jsonObject.getString("result");
+                        Log.e("result", result1);
                         JSONObject dataObj = new JSONObject(result1);
                         JSONArray data = dataObj.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
@@ -101,12 +122,22 @@ public class FirstFragment extends Fragment {
                             String url = dataobj.getString("url");
                             String thumbnail_pic_s = dataobj.getString("thumbnail_pic_s");
 
+                            if (dataobj.has("thumbnail_pic_s02")) {
+                                thumbnail_pic_s2 = dataobj.getString("thumbnail_pic_s02");
+                            }
+
+                            if (dataobj.has("thumbnail_pic_s03")) {
+                                thumbnail_pic_s3 = dataobj.getString("thumbnail_pic_s03");
+                            }
+
 
                             NewsInfo newsInfo = new NewsInfo();
                             newsInfo.setDate(date);
                             newsInfo.setUrl(url);
                             newsInfo.setTitle(title);
                             newsInfo.setThumbnail_pic_s(thumbnail_pic_s);
+                            newsInfo.setThumbnail_pic_s2(thumbnail_pic_s2);
+                            newsInfo.setThumbnail_pic_s(thumbnail_pic_s3);
 
                             newsInfos.add(newsInfo);
                         }
@@ -121,11 +152,47 @@ public class FirstFragment extends Fragment {
         });
     }
 
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
+
+        recyclerView.setLayoutAnimation(controller);
+        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
+
     private void initView(View view) {
         TextView tv_title = view.findViewById(R.id.tv_title);
         tv_title.setText("头条新闻");
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv_first);
+        images.add(R.mipmap.iv_one);
+        images.add(R.mipmap.iv_two);
+        images.add(R.mipmap.iv_third);
+
+        Banner banner = (Banner) view.findViewById(R.id.banner);
+        //设置banner样式
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(images);
+        //设置banner动画效果
+        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+//        banner.setBannerTitles(titles);
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(1500);
+        //设置指示器位置（当banner模式中有指示器时）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+
+        pb_first = (ProgressBar) view.findViewById(R.id.pb_first);
+
+        recyclerView = view.findViewById(R.id.rv_first);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
@@ -137,7 +204,9 @@ public class FirstFragment extends Fragment {
         //设置分隔线
 //        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         //设置增加或删除条目的动画
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        int resId = R.anim.layout_animation_fall_down;
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this.getContext(), resId);
+        recyclerView.setLayoutAnimation(animation);
 
         recycleAdapter.setItemClickListener(new NewsRecycleAdapter.OnItemClickListener() {
             @Override
@@ -154,7 +223,8 @@ public class FirstFragment extends Fragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+//                runLayoutAnimation(recyclerView);
+//                super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override

@@ -6,127 +6,89 @@
 
     <include layout="@layout/title" />
 
-    <com.fengmap.kotlindemo.view.MultiLineRadioGroup
-        android:id="@+id/rg_bank"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_china"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/china_bank" />
-
-            <RadioButton
-                android:id="@+id/rb_gs"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/gs_bank" />
-
-            <RadioButton
-                android:id="@+id/rb_zs"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/zs_bank" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_js"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/js_bank" />
-
-            <RadioButton
-                android:id="@+id/rb_jt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/jt_bank" />
-
-            <RadioButton
-                android:id="@+id/rb_ny"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/ny_bank" />
-
-        </LinearLayout>
-    </com.fengmap.kotlindemo.view.MultiLineRadioGroup>
-    <!--<RadioGroup-->
-    <!--android:id="@+id/rg_bank"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-    <!--<RadioButton-->
-    <!--android:id="@+id/rb_china"-->
-    <!--android:text="@string/china_bank"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:checked="true"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<RadioButton-->
-    <!--android:id="@+id/rb_gs"-->
-    <!--android:text="@string/gs_bank"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<RadioButton-->
-    <!--android:id="@+id/rb_zs"-->
-    <!--android:text="@string/zs_bank"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--</RadioGroup>-->
-
-    <!--<RadioGroup-->
-    <!--android:id="@+id/rg_bank2"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-
-    <!--<RadioButton-->
-    <!--android:id="@+id/rb_js"-->
-    <!--android:text="@string/js_bank"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<RadioButton-->
-    <!--android:id="@+id/rb_jt"-->
-    <!--android:text="@string/jt_bank"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<RadioButton-->
-    <!--android:id="@+id/rb_ny"-->
-    <!--android:text="@string/ny_bank"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_height="wrap_content" />-->
-
-
-    <!--</RadioGroup>-->
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_money"
+    <android.support.v7.widget.CardView
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <com.fengmap.kotlindemo.view.MultiLineRadioGroup
+            android:background="#fff"
+            android:id="@+id/rg_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_china"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/china_bank" />
+
+                <RadioButton
+                    android:id="@+id/rb_gs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/gs_bank" />
+
+                <RadioButton
+                    android:id="@+id/rb_zs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/zs_bank" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_js"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/js_bank" />
+
+                <RadioButton
+                    android:id="@+id/rb_jt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/jt_bank" />
+
+                <RadioButton
+                    android:id="@+id/rb_ny"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ny_bank" />
+
+            </LinearLayout>
+        </com.fengmap.kotlindemo.view.MultiLineRadioGroup>
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <ProgressBar
+            android:id="@+id/pb_third"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
 </LinearLayout>

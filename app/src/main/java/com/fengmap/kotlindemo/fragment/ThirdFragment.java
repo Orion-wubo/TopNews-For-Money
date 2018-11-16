@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class ThirdFragment extends Fragment{
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 3) {
+                pb_third.setVisibility(View.GONE);
                 recycleAdapter.setData(moneyInfos);
             } else if (msg.what == 0) {
                 recycleAdapter.setData(moneyInfos_gs);
@@ -61,6 +63,7 @@ public class ThirdFragment extends Fragment{
             }else if (msg.what == 5) {
                 recycleAdapter.setData(moneyInfos_ny);
             } else if (msg.what == 6) {
+                pb_third.setVisibility(View.GONE);
                 Toast.makeText(ThirdFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
         }
@@ -73,6 +76,7 @@ public class ThirdFragment extends Fragment{
     private ArrayList<MoneyInfo> moneyInfos_jt = new ArrayList<>();
     private ArrayList<MoneyInfo> moneyInfos_ny = new ArrayList<>();
     private MultiLineRadioGroup radioGroup1;
+    private ProgressBar pb_third;
 
     @Nullable
     @Override
@@ -86,6 +90,7 @@ public class ThirdFragment extends Fragment{
     private void initView(View view) {
         TextView tv_title = view.findViewById(R.id.tv_title);
         tv_title.setText("货币汇率");
+        pb_third = (ProgressBar) view.findViewById(R.id.pb_third);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_money);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());

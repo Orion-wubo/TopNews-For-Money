@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,13 +54,16 @@ public class SecondFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                pb_second.setVisibility(View.GONE);
                 recycleAdapter.setData(dateInfos);
             } else if (msg.what == 2) {
+                pb_second.setVisibility(View.GONE);
                 Toast.makeText(SecondFragment.this.getContext(),"请求网络失败",Toast.LENGTH_LONG).show();
             }
         }
     };
     private DateRecycleAdapter recycleAdapter;
+    private ProgressBar pb_second;
 
     @Nullable
     @Override
@@ -73,7 +77,7 @@ public class SecondFragment extends Fragment {
     private void initView(View view) {
         TextView tv_title = view.findViewById(R.id.tv_title);
         tv_title.setText("净值数据");
-
+        pb_second = (ProgressBar) view.findViewById(R.id.pb_second);
         RecyclerView recyclerView = view.findViewById(R.id.rv_second);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         //设置布局管理器
@@ -98,7 +102,7 @@ public class SecondFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastCompletelyVisibleItemPosition == dateInfos.size() - 1) {
-                    getNews(index);
+                   getNews(index);
                 }
             }
         });

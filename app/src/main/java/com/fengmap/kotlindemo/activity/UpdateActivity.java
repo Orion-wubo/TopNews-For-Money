@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ProgressBar;
@@ -35,7 +36,7 @@ import okhttp3.Response;
  * Created by bai on 2018/11/14.
  */
 
-public class UpdateActivity extends Activity {
+public class UpdateActivity extends AppCompatActivity {
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -21,7 +22,7 @@ import com.fengmap.kotlindemo.R;
  * Created by bai on 2018/11/9.
  */
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends AppCompatActivity {
     private WebView webView;
 
     @SuppressLint("SetJavaScriptEnabled")

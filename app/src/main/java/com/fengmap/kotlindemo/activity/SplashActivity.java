@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,7 +41,7 @@ import okhttp3.Response;
  * Created by bai on 2018/11/7.
  */
 
-public class SplashActivity extends Activity{
+public class SplashActivity extends AppCompatActivity {
 
     private String url =
             "http://aigoodies.com/bick/public/index.php/api/index/get_appid/appid/kunlin20181106ttz";
