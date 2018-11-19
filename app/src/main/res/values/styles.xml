@@ -17,4 +17,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- popwindow进入和退出动画 -->
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/show</item>
+        <item name="android:windowExitAnimation">@anim/hide</item>
+    </style>
+
+    <style name="CustomPopWindowStyle">
+        <item name="android:windowEnterAnimation">@anim/popwindow_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/popwindow_anim_out</item>
+    </style>
+
+
 </resources>

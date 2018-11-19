@@ -9,26 +9,24 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fengmap.kotlindemo.R;
 import com.fengmap.kotlindemo.activity.DetailActivity;
 import com.fengmap.kotlindemo.adapter.GlideImageLoader;
-import com.fengmap.kotlindemo.bean.NewsInfo;
-import com.fengmap.kotlindemo.R;
 import com.fengmap.kotlindemo.adapter.NewsRecycleAdapter;
+import com.fengmap.kotlindemo.bean.NewsInfo;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -39,7 +37,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -64,6 +61,7 @@ public class FirstFragment extends Fragment {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 pb_first.setVisibility(View.GONE);
+                srl.setRefreshing(false);
                 recycleAdapter.setData(newsInfos);
                 runLayoutAnimation(recyclerView);
             } else if (msg.what == 2) {
@@ -75,6 +73,7 @@ public class FirstFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProgressBar pb_first;
     private ArrayList<Integer> images = new ArrayList<>();
+    private SwipeRefreshLayout srl;
 
     @Nullable
     @Override
@@ -112,7 +111,6 @@ public class FirstFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         String result1 = jsonObject.getString("result");
-                        Log.e("result", result1);
                         JSONObject dataObj = new JSONObject(result1);
                         JSONArray data = dataObj.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
@@ -233,6 +231,15 @@ public class FirstFragment extends Fragment {
                 if (lastCompletelyVisibleItemPosition == newsInfos.size() - 1) {
                     Toast.makeText(FirstFragment.this.getContext(),"没有更多数据",Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+
+        srl = (SwipeRefreshLayout) view.findViewById(R.id.srl);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNews();
             }
         });
     }

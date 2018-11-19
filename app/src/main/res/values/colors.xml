@@ -6,4 +6,5 @@
     <color name="unselect">#333333</color>
     <color name="view">#ababab</color>
     <color name="white">#ffffff</color>
+    <color name="tm">#00000000</color>
 </resources>
