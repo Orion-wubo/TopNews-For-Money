@@ -59,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
                 // go main download apk
 
                 if (url.endsWith(".apk")) {
-                    // down load and update
+                    // down load and versionupdate
                     goUpdate(url);
                 } else {
                     // go to main show url

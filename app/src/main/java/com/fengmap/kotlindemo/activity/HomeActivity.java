@@ -17,6 +17,7 @@ import com.fengmap.kotlindemo.fragment.FirstFragment;
 import com.fengmap.kotlindemo.fragment.FourthFragment;
 import com.fengmap.kotlindemo.fragment.SecondFragment;
 import com.fengmap.kotlindemo.fragment.ThirdFragment;
+import com.fengmap.kotlindemo.fragment.UserFragment;
 
 import java.util.ArrayList;
 
@@ -52,9 +53,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private void initFragment() {
         FirstFragment f1 = new FirstFragment();
-        SecondFragment f2 = new SecondFragment();
+        FourthFragment f2 = new FourthFragment();
+        UserFragment f4 = new UserFragment();
         ThirdFragment f3 = new ThirdFragment();
-        FourthFragment f4 = new FourthFragment();
 
         fragments.add(f1);
         fragments.add(f2);

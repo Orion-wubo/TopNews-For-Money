@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+// 添加插件
+apply plugin: 'com.mob.sdk'
 android {
 
     signingConfigs {
@@ -13,7 +15,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.fengmap.kotlindemo"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -28,6 +30,16 @@ android {
         debug {
             signingConfig signingConfigs.config
         }
+    }
+
+    // 在MobSDK的扩展中注册SMSSDK的相关信息
+    MobSDK {
+//    domain 'us'
+        appKey '292475f7a9a28'
+        appSecret '8ed9681513ceada471da4516db019c9d'
+
+        SMSSDK {}
+        CMSSDK {}
     }
 }
 
