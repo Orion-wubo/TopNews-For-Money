@@ -27,6 +27,7 @@ import com.fengmap.kotlindemo.activity.DetailActivity;
 import com.fengmap.kotlindemo.adapter.GlideImageLoader;
 import com.fengmap.kotlindemo.adapter.NewsRecycleAdapter;
 import com.fengmap.kotlindemo.bean.NewsInfo;
+import com.fengmap.kotlindemo.util.DBManager;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -87,6 +89,13 @@ public class FirstFragment extends Fragment {
     }
 
     private void getNews() {
+        newsInfos = (ArrayList<NewsInfo>) DBManager.getInstance(this.getContext()).queryUserList();
+        if (newsInfos != null && newsInfos.size() > 0) {
+            pb_first.setVisibility(View.GONE);
+            srl.setRefreshing(false);
+            recycleAdapter.setData(newsInfos);
+            runLayoutAnimation(recyclerView);
+        }
         OkHttpClient client = new OkHttpClient();
         String url = "http://v.juhe.cn/toutiao/index?type=top";
         RequestBody body = new FormBody.Builder().add("key","a5f45eeab05824a9440ca143b2447528")
@@ -116,6 +125,7 @@ public class FirstFragment extends Fragment {
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject dataobj = new JSONObject(data.get(i).toString());
                             String title = dataobj.getString("title");
+                            String uniquekey = dataobj.getString("uniquekey");
                             String date = dataobj.getString("date");
                             String url = dataobj.getString("url");
                             String thumbnail_pic_s = dataobj.getString("thumbnail_pic_s");
@@ -137,7 +147,11 @@ public class FirstFragment extends Fragment {
                             newsInfo.setThumbnail_pic_s2(thumbnail_pic_s2);
                             newsInfo.setThumbnail_pic_s(thumbnail_pic_s3);
 
-                            newsInfos.add(newsInfo);
+                            if (!newsInfos.contains(newsInfo)) {
+                                newsInfos.add(newsInfo);
+                            }
+
+                            DBManager.getInstance(FirstFragment.this.getContext()).insertUser(newsInfo);
                         }
 
                         Message message = handler.obtainMessage(1);

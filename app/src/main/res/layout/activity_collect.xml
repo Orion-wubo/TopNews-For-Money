@@ -8,7 +8,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_collect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
 
         <TextView
             android:id="@+id/tv_collect"
@@ -18,12 +27,6 @@
             android:layout_centerInParent="true"
             android:text="没有收藏" />
 
-        <android.support.v7.app.AlertController.RecycleListView
-            android:id="@+id/rv_collect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.app.AlertController.RecycleListView>
     </RelativeLayout>
 
 

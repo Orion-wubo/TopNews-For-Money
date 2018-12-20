@@ -2,15 +2,11 @@ package com.fengmap.kotlindemo.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +17,6 @@ import com.fengmap.kotlindemo.activity.EditActivity;
 import com.fengmap.kotlindemo.activity.LoginActivity;
 import com.fengmap.kotlindemo.activity.SettingActivity;
 import com.fengmap.kotlindemo.util.SPUtils;
-import com.mob.cms.gui.themes.defaultt.components.ToastUtils;
-
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
 
 /**
  *
@@ -86,8 +78,14 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.ll_shoucang:
-                Intent intent2 = new Intent(UserFragment.this.getContext(),CollectActivity.class);
-                UserFragment.this.startActivity(intent2);
+                String username1 = (String) SPUtils.get(UserFragment.this.getContext(), "username", "");
+                if (username1.isEmpty()) {
+                    Intent intent = new Intent(UserFragment.this.getContext(), LoginActivity.class);
+                    UserFragment.this.startActivity(intent);
+                } else {
+                    Intent intent2 = new Intent(UserFragment.this.getContext(),CollectActivity.class);
+                    UserFragment.this.startActivity(intent2);
+                }
                 break;
             case R.id.ll_update:
                 Toast.makeText(UserFragment.this.getContext(),"已经是最新版本", Toast.LENGTH_LONG).show();

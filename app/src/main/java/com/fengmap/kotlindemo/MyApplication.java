@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.mob.MobSDK;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.smssdk.SMSSDK;
 
 /**
@@ -15,5 +16,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         MobSDK.init(this);
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
     }
 }

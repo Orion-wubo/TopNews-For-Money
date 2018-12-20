@@ -99,45 +99,49 @@ public class UpdateActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    InputStream is = response.body().byteStream();
+                try {
+                    if (response.isSuccessful()) {
+                        InputStream is = response.body().byteStream();
 
-                    FileOutputStream fos = new FileOutputStream(file);
+                        FileOutputStream fos = new FileOutputStream(file);
 
-                    int totle = (int) response.body().contentLength();
+                        int totle = (int) response.body().contentLength();
 
-                    Log.e("totle", totle + "");
+                        Log.e("totle", totle + "");
 
-                    byte[] bytes = new byte[1024];
-                    int len = 0;
-                    int sum = 0;
-                    int progress = 0;
-                    while ((len = is.read(bytes)) != -1) {
-                        fos.write(bytes,0,len);  //在这里使用另一个重载，防止流写入的问题.
-                        sum = sum + len;
-                        Log.e("sum", sum + "");
+                        byte[] bytes = new byte[1024];
+                        int len = 0;
+                        int sum = 0;
+                        int progress = 0;
+                        while ((len = is.read(bytes)) != -1) {
+                            fos.write(bytes,0,len);  //在这里使用另一个重载，防止流写入的问题.
+                            sum = sum + len;
+                            Log.e("sum", sum + "");
 
 
-                        progress = (int) ((sum * 1.0f) / totle * 100);
+                            progress = (int) ((sum * 1.0f) / totle * 100);
 
-                        Log.e("progress", progress + "");
+                            Log.e("progress", progress + "");
 
-                        Message message = handler.obtainMessage(3);
+                            Message message = handler.obtainMessage(3);
+                            message.obj = progress;
+                            handler.sendMessage(message);
+                        }
+
+                        Message message = handler.obtainMessage(4);
                         message.obj = progress;
                         handler.sendMessage(message);
-                    }
 
-                    Message message = handler.obtainMessage(4);
-                    message.obj = progress;
-                    handler.sendMessage(message);
-
-                    if (is != null) {
-                        is.close();
+                        if (is != null) {
+                            is.close();
+                        }
+                        if (fos != null) {
+                            fos.flush();
+                            fos.close();
+                        }
                     }
-                    if (fos != null) {
-                        fos.flush();
-                        fos.close();
-                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
